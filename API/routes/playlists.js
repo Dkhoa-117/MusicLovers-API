@@ -123,7 +123,7 @@ router.delete('/:playlistId/songs/:songId', async (req, res) => {
 //UPDATE A PLAYLIST
 router.patch('/:playlistId/name', async (req, res) => {
     try{
-        const updatePlaylist = await Song.updateOne({_id: req.params.playlistId}, {$set: {playlistName: req.body.playlistName}});
+        const updatePlaylist = await Playlist.updateOne({_id: req.params.playlistId}, {$set: {playlistName: req.body.playlistName}});
         res.json(updatePlaylist);
     }catch(err) {
         res.status().json({ message: err});
