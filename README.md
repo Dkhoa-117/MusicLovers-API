@@ -106,7 +106,7 @@ _Tạo một album mới_
 * genreId
 
 Request mẫu (làm trên Postman):
-
+![image](https://github.com/Dkhoa-117/MusicLovers_API/blob/main/ref.%20pic/POST%20an%20album.png)
 ## GET ***/albums***
 ```
 https://localhost:3000/albums
@@ -167,7 +167,7 @@ localhost:3000/artists
 * *artistImg* - Vị trí lưu ảnh nghệ sĩ tại server.
 
 Body request mẫu (làm trên Postman):
-[]()
+![image](https://github.com/Dkhoa-117/MusicLovers_API/blob/main/ref.%20pic/POST%20an%20artist.png)
 Response mẫu:
 ```
 {
@@ -276,7 +276,7 @@ _Tạo một playlist_
 * *playlistImg* - nơi lưu trữ hình ảnh playlist tại server.
 
 Request mẫu (làm trên Postman):
-
+![image](https://github.com/Dkhoa-117/MusicLovers_API/blob/main/ref.%20pic/POST%20a%20playlist.png)
 Response mẫu:
 ```
 {
@@ -393,6 +393,7 @@ _Thêm một bài hát_
 * *songSrc* - Vị trí lưu trữ audio của của bài hát.
 
 Request mẫu: (làm bằng Postman)
+![image](https://github.com/Dkhoa-117/MusicLovers_API/blob/main/ref.%20pic/POST%20a%20song.png)
 
 ## POST ***/songs/:songId/artist/:artistId***
 ```
