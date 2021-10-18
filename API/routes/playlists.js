@@ -32,6 +32,16 @@ router.get('/', async (req, res) => {
     }
 });
 
+//GET A SPECIFIC PLAYLIST
+router.get('/:playlistId', async (req, res) => {
+    try{
+        const playlist = await Playlist.findById(req.params.playlistId);
+        res.json(playlist);
+    }catch(err) {
+        res.json({ message: err })
+    }
+});
+
 //GET PLAYLISTS - BY USER
 router.get('/user/:userId', async (req, res) => {
     try{
@@ -41,16 +51,6 @@ router.get('/user/:userId', async (req, res) => {
         res.json(playlist);
     }catch (err) {
         res.status(500).json({ err: "Something went wrong" });
-    }
-});
-
-//GET A SPECIFIC PLAYLIST
-router.get('/:playlistId', async (req, res) => {
-    try{
-        const playlist = await Playlist.findById(req.params.playlistId);
-        res.json(playlist);
-    }catch(err) {
-        res.json({ message: err })
     }
 });
 
@@ -67,16 +67,6 @@ router.post('/', upload.single('image'), async (req, res) => {
         res.json(savedPlaylist);
     }catch(err) {
         res.json({ message: err });
-    }
-});
-
-//DELETE A PLAYLIST
-router.delete('/:playlistId', async (req, res) => {
-    try{
-        const deletePlaylist = await Playlist.remove({_id: req.params.playlistId});
-        res.json(deletePlaylist);
-    }catch(err) {
-        res.json({ message: err});
     }
 });
 
@@ -106,6 +96,16 @@ router.post('/:playlistId/songs/:songId', async (req, res) => {
     }
 });
 
+//UPDATE A PLAYLIST
+router.patch('/:playlistId/name', async (req, res) => {
+    try{
+        const updatePlaylist = await Playlist.updateOne({_id: req.params.playlistId}, {$set: {playlistName: req.body.playlistName}});
+        res.json(updatePlaylist);
+    }catch(err) {
+        res.status().json({ message: err});
+    }
+});
+
 //REMOVE A SONG IN PLAYLIST
 router.delete('/:playlistId/songs/:songId', async (req, res) => {
     try{
@@ -120,13 +120,14 @@ router.delete('/:playlistId/songs/:songId', async (req, res) => {
     }
 });
 
-//UPDATE A PLAYLIST
-router.patch('/:playlistId/name', async (req, res) => {
+//DELETE A PLAYLIST
+router.delete('/:playlistId', async (req, res) => {
     try{
-        const updatePlaylist = await Playlist.updateOne({_id: req.params.playlistId}, {$set: {playlistName: req.body.playlistName}});
-        res.json(updatePlaylist);
+        const deletePlaylist = await Playlist.remove({_id: req.params.playlistId});
+        res.json(deletePlaylist);
     }catch(err) {
-        res.status().json({ message: err});
+        res.json({ message: err});
     }
 });
+
 module.exports = router;

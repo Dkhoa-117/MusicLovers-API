@@ -119,7 +119,7 @@ router.post('/', async (req, res) => {
             throw new Error('Invalid user data');
         }
     }catch(err) {
-        res.status(500).json({ err: "Something went wrong" });
+        res.status(500).json({ message: err });
     }
 });
 module.exports = router;

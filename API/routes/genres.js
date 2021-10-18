@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-//SUBMIT A GENRE
+//CREATE A GENRE
 router.post('/', async (req, res) => {
     const genre = new Genre({
         genreType: req.body.genreType
@@ -35,6 +35,16 @@ router.get('/:genreId', async (req, res) => {
     }
 });
 
+//UPDATE A GENRE - Genre type
+router.patch('/:genreId', async (req, res) => {
+    try{
+        const updateGenre = await Genre.updateOne({_id: req.params.genreId}, {$set: {genreType: req.body.genreType}});
+        res.json(updateGenre);
+    }catch(err) {
+        res.status().json({ message: err});
+    }
+});
+
 //DELETE A GENRE
 router.delete('/:genreId', async (req, res) => {
     try{
@@ -45,13 +55,4 @@ router.delete('/:genreId', async (req, res) => {
     }
 });
 
-//UPDATE A GENRE - Genre type
-router.patch('/:genreId', async (req, res) => {
-    try{
-        const updateGenre = await Genre.updateOne({_id: req.params.genreId}, {$set: {genreType: req.body.genreType}});
-        res.json(updateGenre);
-    }catch(err) {
-        res.status().json({ message: err});
-    }
-});
 module.exports = router;

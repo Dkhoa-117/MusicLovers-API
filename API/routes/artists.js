@@ -19,7 +19,7 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({storage: storage, fileFilter: fileFilter});
 
-//GET
+//GET ALL ARTISTS
 router.get('/', async (req, res) => {
     try {
         const artists = await Artist.find();
@@ -40,7 +40,7 @@ router.get('/:artistId', async (req, res) => {
     }
 });
 
-//POST
+//CREATE AN ARTIST
 router.post('/', upload.single('image'), async (req, res) => {
     const artist = new Artist({
         artistName: req.body.artistName,
@@ -74,4 +74,5 @@ router.delete('/:artistId', async (req, res) => {
         res.json({ message: err });
     }
 });
+
 module.exports = router;
