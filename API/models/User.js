@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        //default: 
+        default: "uploads/artists00001.jpeg"
     },
     create_at: {
         type: Date,
@@ -24,11 +24,11 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.methods.matchPassword = async function(enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 userSchema.pre('save', async function (next) {
-    if(!this.isModified('password')) {
+    if (!this.isModified('password')) {
         next();
     }
     const salt = await bcrypt.genSalt(12);

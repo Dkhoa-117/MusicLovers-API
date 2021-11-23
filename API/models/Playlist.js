@@ -10,18 +10,22 @@ const PlaylistSchema = mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    playlistImg: {
-        type: String
-        //default: 
+    playlist_number: {
+        type: Number,
+        required: true
     },
-    songs: [{
+    playlistImg: {
+        type: String,
+        default: 'uploads/artists00001.jpeg'
+    },
+    songId: [{
         type: mongoose.Schema.Types.ObjectId,
-        by: 'Song'
+        ref: 'Song'
     }],
     numSongs: {
         type: Number,
         required: true,
-        default: 0 
+        default: 0
     }
 });
 module.exports = mongoose.model('Playlist', PlaylistSchema);

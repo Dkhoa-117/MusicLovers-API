@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Song = require('../models/Song');
+const Playlist = require('../models/Playlist');
 const Artist = require('../models/Artist');
 const multer = require('multer');
 
@@ -20,6 +21,21 @@ const fileFilter = (req, file, cb) => {
     }
 };
 const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+//Search Song, using songName and artistName 
+router.get('/search', async (req, res) => {
+    try {
+        const searchField = req.query.q;
+        const songs = await Song.find({
+            $or: [{ songName: { $regex: searchField, $options: '$1' } },
+            { artistName: { $regex: searchField, $options: '$1' } }]
+        });
+        res.json(songs);
+    }
+    catch (err) {
+        res.json({ messagse: err });
+    }
+});
 
 //GET ALL SONGS
 router.get('/', async (req, res) => {
@@ -47,7 +63,7 @@ router.get('/artist/:artistId', async (req, res) => {
     try {
         const song = await Song.find({
             artistId: req.params.artistId
-        });
+        }).sort({ likeCount: -1 });
         res.json(song);
     } catch (err) {
         res.status(500).json({ message: err });
@@ -123,13 +139,48 @@ router.post('/:songId/artist/:artistId', async (req, res) => {
     }
 });
 
-//UPDATE SONG's LIKEs - count number of likes
-router.patch('/:songId/likes', async (req, res) => {
+//LIKE SONG - body: userId, songId
+router.post('/likes', async (req, res) => {
     try {
-        const updateSong = await Song.updateOne({ _id: req.params.songId }, { $set: { likeCount: req.body.likeCount } });
-        res.json(updateSong);
+        const { userId } = req.body;
+        const playlist_number = 0;
+        const playlist = await Playlist.findOne({ userId, playlist_number });
+        if (playlist) {
+            const song = await Song.findById(req.body.songId);
+            const songlist = playlist.songId;
+            if (song) {
+                const found = songlist.indexOf(song._id);
+                let likeCount = song.likeCount;
+                if (found === -1) {
+                    playlist.songId.push(song);
+                    likeCount = likeCount + 1;
+                    song.likeCount = likeCount;
+                    await song.save();
+                } else {
+                    res.status(200).json({ message: 'Song aldready exists' });
+                    playlist.songId.remove(song);
+                    playlist.numSongs = playlist.songId.length;
+                    likeCount = likeCount - 1;
+                    song.likeCount = likeCount;
+                    await song.save();
+                    await playlist.save();
+                    return;
+                }
+            }
+            else {
+                res.status(404).json({ message: 'Song not found' });
+                return;
+            }
+        }
+        else {
+            res.status(404).json({ message: 'Playlist not found' });
+            return;
+        }
+        playlist.numSongs = playlist.songId.length;
+        await playlist.save();
+        res.status(201).json({ message: 'Song added' });
     } catch (err) {
-        res.status().json({ message: err });
+        res.json({ message: err });
     }
 });
 

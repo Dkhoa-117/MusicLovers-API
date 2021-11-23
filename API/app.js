@@ -28,12 +28,12 @@ app.use('/users', usersRoute);
 
 //GET
 app.get('/', (req, res) => {
-    res.send('API is running...');
+  res.send('API is running...');
 })
 
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECTION, () => 
-    console.log('CONNECT TO DATABASE!')
+mongoose.connect(process.env.DB_CONNECTION, () =>
+  console.log('CONNECT TO DATABASE!')
 );
 
 //Listening
