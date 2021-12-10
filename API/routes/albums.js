@@ -21,6 +21,21 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
+//Search Albums
+router.get('/search', async (req, res) => {
+    try {
+        const searchField = req.query.q;
+        const albums = await Album.find({
+            $or: [{ albumName: { $regex: searchField, $options: 'i' } },
+            { artistName: { $regex: searchField, $options: 'i' } }]
+        });
+        res.json(albums);
+    }
+    catch (err) {
+        res.json({ messagse: err });
+    }
+});
+
 //GET ALL ALBUMS
 router.get('/', async (req, res) => {
     try {

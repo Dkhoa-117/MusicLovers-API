@@ -69,9 +69,8 @@ router.get('/user/:userId', async (req, res) => {
 //GET PLAYLISTS - BY USER - playlist_number
 router.get('/:userId/:playlist_number', async (req, res) => {
     try {
-        const playlist_number = req.params.playlist_number;
         const userId = req.params.userId;
-        const playlist = await Playlist.findOne({ userId, playlist_number });
+        const playlist = await Playlist.find({ userId: userId, playlist_number: req.params.playlist_number });
         res.json(playlist);
     } catch (err) {
         res.status(500).json({ err: "Something went wrong" });
@@ -80,18 +79,21 @@ router.get('/:userId/:playlist_number', async (req, res) => {
 
 //CREATE A PLAYLIST
 router.post('/', upload.single('image'), async (req, res) => {
-    console.log(req.file);
+    if (req.file !== undefined) {
+        res.json({ message: 'no file' });
+        console.log('some');
+        return;
+    }
     const playlist = new Playlist({
         playlistName: req.body.playlistName,
         userId: req.body.userId,
-        playlist_number: req.body.playlist_number,//khong dc
-        playlistImg: req.file.path
+        playlist_number: 2,
     });
     try {
-        const savedPlaylist = await playlist.save();
-        res.json(savedPlaylist);
+        await playlist.save();
+        res.status(200).json(playlist);
     } catch (err) {
-        res.json({ message: err });
+        res.status(400).json({ message: err });
     }
 });
 
@@ -143,21 +145,22 @@ router.patch('/:playlistId/name', async (req, res) => {
 router.delete('/:playlistId/songs/:songId', async (req, res) => {
     try {
         const playlist = await Playlist.findById(req.params.playlistId);
-        const song = await Song.findById(req.params.songId);
-        playlist.songId.remove(song);
+        //const song = await Song.findById(req.params.songId);
+        await playlist.songId.remove(req.params.songId);
         playlist.numSongs = playlist.songId.length;
         await playlist.save();
         res.status(201).json('Song removed!');
     } catch (err) {
-        res.json({ message: err })
+        console.log({ error: err });
+        res.status(500).json({ message: err });
     }
 });
 
 //DELETE A PLAYLIST
 router.delete('/:playlistId', async (req, res) => {
     try {
-        const deletePlaylist = await Playlist.remove({ _id: req.params.playlistId });
-        res.json(deletePlaylist);
+        await Playlist.remove({ _id: req.params.playlistId });
+        res.status(200).json({ message: 'Playlist Deleted' });
     } catch (err) {
         res.json({ message: err });
     }

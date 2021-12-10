@@ -27,8 +27,8 @@ router.get('/search', async (req, res) => {
     try {
         const searchField = req.query.q;
         const songs = await Song.find({
-            $or: [{ songName: { $regex: searchField, $options: '$1' } },
-            { artistName: { $regex: searchField, $options: '$1' } }]
+            $or: [{ songName: { $regex: searchField, $options: 'i' } },
+            { artistName: { $regex: searchField, $options: 'i' } }]
         });
         res.json(songs);
     }
