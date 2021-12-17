@@ -36,6 +36,21 @@ router.get('/search', async (req, res) => {
         res.json({ messagse: err });
     }
 });
+//get songs by category
+router.get('/:category', async (req, res) => {
+    try {
+        if (req.params.category === 'new-music') {
+            const songs = await Song.find().sort({ create_at: -1 }).limit(10);
+            res.json(songs);
+        } else if (req.params.category === 'best-new-songs') {
+            const songs = await Song.find().sort({ create_at: -1, likeCount: -1 }).limit(10);
+            res.json(songs);
+        }
+    }
+    catch (err) {
+        res.status(400).json({ message: err });
+    }
+});
 
 //GET ALL SONGS
 router.get('/', async (req, res) => {
@@ -138,7 +153,36 @@ router.post('/:songId/artist/:artistId', async (req, res) => {
         res.json({ message: err })
     }
 });
-
+router.post('/recent', async (req, res) => { //need to test
+    try {
+        const { userId } = req.body;
+        const playlist_number = 1;
+        const playlist = await Playlist.findOne({ userId, playlist_number });
+        if (playlist) {
+            const song = await Song.findById(req.body.songId);
+            //const songlist = playlist.songId;
+            if (song) {
+                if (playlist.numSongs === 30) {
+                    playlist.songId.shift();
+                    playlist.songId.pop(song);
+                } else {
+                    playlist.songId.push(song);
+                }
+            } else {
+                res.status(404).json({ message: 'Song not found' });
+                return;
+            }
+        } else {
+            res.status(404).json({ message: 'Playlist not found' });
+            return;
+        }
+        playlist.numSongs = playlist.songId.length;
+        await playlist.save();
+        res.status(201).json({ message: 'Song added' });
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
 //LIKE SONG - body: userId, songId
 router.post('/likes', async (req, res) => {
     try {
@@ -147,11 +191,11 @@ router.post('/likes', async (req, res) => {
         const playlist = await Playlist.findOne({ userId, playlist_number });
         if (playlist) {
             const song = await Song.findById(req.body.songId);
-            const songlist = playlist.songId;
+            const songlist = playlist.songId; //song's id array
             if (song) {
                 const found = songlist.indexOf(song._id);
                 let likeCount = song.likeCount;
-                if (found === -1) {
+                if (found === -1 /* chua co */) {
                     playlist.songId.push(song);
                     likeCount = likeCount + 1;
                     song.likeCount = likeCount;

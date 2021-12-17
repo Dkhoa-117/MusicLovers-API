@@ -109,14 +109,15 @@ router.post('/', async (req, res) => {
                 const plist_liked = new Playlist({
                     playlistName: 'Liked Songs',
                     userId: user._id,
-                    playlist_number: 0
+                    playlist_number: 0,
+                    playlistImg: 'uploads/default_playlist.jpeg'
                 });
                 plist_liked.save();
                 const plist_recently = new Playlist({
                     playlistName: 'Recently Played',
                     userId: user._id,
-                    playlist_number: 1
-
+                    playlist_number: 1,
+                    playlistImg: 'uploads/default_playlist.jpeg'
                 });
                 plist_recently.save();
                 res.status(201).json({

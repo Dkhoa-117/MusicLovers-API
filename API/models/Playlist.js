@@ -16,7 +16,7 @@ const PlaylistSchema = mongoose.Schema({
     },
     playlistImg: {
         type: String,
-        default: 'uploads/artists00001.jpeg'
+        default: 'uploads/default_playlist.jpeg'
     },
     songId: [{
         type: mongoose.Schema.Types.ObjectId,

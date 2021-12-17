@@ -47,6 +47,22 @@ router.get('/', async (req, res) => {
     }
 });
 
+//GET ALBUMS BY CATEGORY
+router.get('/:category', async (req, res) => {
+    try {
+        if (req.params.category === 'new-albums') {
+            const albums = await Album.find().sort({ create_at: -1 }).limit(10);
+            res.json(albums);
+        } else if (req.params.category === 'hot-albums') {
+            const albums = await Album.find().sort({ create_at: -1 }).limit(10);
+            res.json(albums);
+        }
+    }
+    catch (err) {
+        res.status(400).json({ message: err });
+    }
+});
+
 //GET A SPECIFIC ALBUM
 router.get('/:albumId', async (req, res) => {
     try {

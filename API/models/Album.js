@@ -22,6 +22,10 @@ const AlbumSchema = mongoose.Schema({
     albumImg: {
         type: String,
         required: true
+    },
+    create_at: {
+        type: Date,
+        default: Date.now
     }
 });
 module.exports = mongoose.model('Album', AlbumSchema);

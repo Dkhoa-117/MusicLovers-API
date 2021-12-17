@@ -40,7 +40,7 @@ router.get('/songs/:playlistId', async (req, res) => {
         const song = playlist.songId;
         res.json(song);
     } catch (err) {
-        res.json({ message: 'khong hieu luon' });
+        res.status(500).json("Something went wrong");
     }
 });
 

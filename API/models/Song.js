@@ -15,13 +15,11 @@ const SongSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Artist'
-
     }],
     albumId: {
         type: mongoose.Schema.Types.ObjectId,
         require: true,
         ref: 'Album'
-
     },
     genreId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -41,6 +39,10 @@ const SongSchema = mongoose.Schema({
     songSrc: {
         type: String,
         required: true
+    },
+    create_at: {
+        type: Date,
+        default: Date.now
     }
 });
 module.exports = mongoose.model('Song', SongSchema);
