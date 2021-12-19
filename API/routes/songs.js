@@ -37,7 +37,7 @@ router.get('/search', async (req, res) => {
     }
 });
 //get songs by category
-router.get('/:category', async (req, res) => {
+router.get('/category/:category', async (req, res) => {
     try {
         if (req.params.category === 'new-music') {
             const songs = await Song.find().sort({ create_at: -1 }).limit(10);

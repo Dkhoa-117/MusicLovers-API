@@ -36,26 +36,15 @@ router.get('/search', async (req, res) => {
     }
 });
 
-//GET ALL ALBUMS
-router.get('/', async (req, res) => {
-    try {
-        const albums = await Album.find();
-        res.json(albums);
-    }
-    catch (err) {
-        res.json({ message: err });
-    }
-});
-
 //GET ALBUMS BY CATEGORY
-router.get('/:category', async (req, res) => {
+router.get('/category/:category', async (req, res) => {
     try {
         if (req.params.category === 'new-albums') {
             const albums = await Album.find().sort({ create_at: -1 }).limit(10);
-            res.json(albums);
+            res.status(201).json(albums);
         } else if (req.params.category === 'hot-albums') {
             const albums = await Album.find().sort({ create_at: -1 }).limit(10);
-            res.json(albums);
+            res.status(201).json(albums);
         }
     }
     catch (err) {
@@ -67,9 +56,32 @@ router.get('/:category', async (req, res) => {
 router.get('/:albumId', async (req, res) => {
     try {
         const album = await Album.findById(req.params.albumId);
-        res.json(album);
+        if (album) {
+            res.status(200).json({
+                _id: album._id,
+                albumName: album.albumName,
+                artistName: album.artistName,
+                artistId: album.artistId,
+                albumImg: album.albumImg,
+                genreId: album.genreId
+            });
+        } else {
+            res.status(400).json({ message: err })
+        }
+
     } catch (err) {
-        res.json({ message: err })
+        res.status(400).json({ message: err })
+    }
+});
+
+//GET ALL ALBUMS
+router.get('/', async (req, res) => {
+    try {
+        const albums = await Album.find();
+        res.json(albums);
+    }
+    catch (err) {
+        res.json({ message: err });
     }
 });
 

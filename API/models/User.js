@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "uploads/default_avatar.jpg"
     },
+    artistId: [{ //danh sach nghe si da yeu thich
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'Artist'
+    }],
     create_at: {
         type: Date,
         default: Date.now

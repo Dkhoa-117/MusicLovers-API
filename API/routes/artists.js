@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Artist = require('../models/Artist');
+const User = require('../models/User');
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -31,6 +32,31 @@ router.get('/search', async (req, res) => {
     }
 });
 
+//GET ARTIST - BY USER
+router.get('/user/:userId', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId).populate('artistId');
+        const temp = user.artistId;
+        const artist = [];
+        for (var item of temp) {
+            artist.push({
+                _id: item._id,
+                artistName: item.artistName,
+                description: item.description,
+                artistImg: item.artistImg,
+                liked: true
+            });
+        }
+        if (artist) {
+            res.status(201).json(artist);
+        } else {
+            res.status(201).json({ message: 'No Artist' });
+        }
+    } catch (err) {
+        res.status(500).json('Something went wrong');
+    }
+});
+
 //GET ALL ARTISTS
 router.get('/', async (req, res) => {
     try {
@@ -43,10 +69,36 @@ router.get('/', async (req, res) => {
 });
 
 //GET A SPECIFIC ARTIST
-router.get('/:artistId', async (req, res) => {
+router.get('/:userId/:artistId', async (req, res) => {
     try {
         const artist = await Artist.findById(req.params.artistId);
-        res.json(artist);
+        const user = await User.findById(req.params.userId);
+        const artistList = user.artistId;
+        if (artist) {
+            const found = artistList.indexOf(artist._id)
+            if (found === -1) {
+                res.status(201).json({
+                    _id: artist._id,
+                    artistName: artist.artistName,
+                    description: artist.description,
+                    artistImg: artist.artistImg,
+                    liked: false
+                });
+            } else {
+                res.status(201).json({
+                    _id: artist._id,
+                    artistName: artist.artistName,
+                    description: artist.description,
+                    artistImg: artist.artistImg,
+                    liked: true
+                });
+            }
+        }
+        else {
+            res.status(404).json({ message: 'Artist not found' });
+            return;
+        }
+
     } catch (err) {
         res.json({ message: err });
     }
@@ -62,6 +114,42 @@ router.post('/', upload.single('image'), async (req, res) => {
     try {
         const savedArtist = await artist.save();
         res.json(savedArtist);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
+
+router.post('/likes', async (req, res) => {
+    try {
+        const userId = req.body.userId;
+        //const playlist_number = 0;
+        const user = await User.findById(userId);
+        if (user) {
+            const artistId = req.body.artistId;
+            const artist = await Artist.findById(artistId);
+            const artistlist = user.artistId; //artist's id array
+            if (artist) {
+                const found = artistlist.indexOf(artist._id);
+                if (found === -1 /* chua co */) {
+                    user.artistId.push(artistId);
+                    await user.save();
+                } else {
+                    res.status(200).json({ message: 'Unliked Artist' });
+                    user.artistId.remove(artistId);
+                    await user.save();
+                    return;
+                }
+            }
+            else {
+                res.status(404).json({ message: 'Artist not found' });
+                return;
+            }
+        }
+        else {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+        res.status(201).json({ message: 'Liked Artist' });
     } catch (err) {
         res.json({ message: err });
     }
