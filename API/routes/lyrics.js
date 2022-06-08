@@ -31,8 +31,13 @@ router.get("/:songId", async (req, res) => {
 		const song = await Song.findById(req.params.songId);
 		if (song) {
 			const lyrics = await Lyrics.findOne({ songId: song._id });
-			console.log(lyrics);
-			res.json({ lyrics: lyrics.lyrics });
+			let response = {
+				lyrics: lyrics.lyrics,
+				time: lyrics.time,
+			};
+			console.log(response);
+
+			res.status(200).json(response);
 		} else {
 		}
 	} catch (err) {

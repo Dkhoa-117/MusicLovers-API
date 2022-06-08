@@ -9,5 +9,10 @@ const LyricsSchema = mongoose.Schema({
 	lyrics: {
 		type: String,
 	},
+	time: [
+		{
+			type: Number,
+		},
+	],
 });
 module.exports = mongoose.model("Lyrics", LyricsSchema);
