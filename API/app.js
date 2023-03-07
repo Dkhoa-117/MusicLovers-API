@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const errorsHandler = require("./middleware/error-handler");
+const notFound = require("./middleware/not-found");
 
 dotenv.config();
 const app = express();
@@ -40,5 +42,11 @@ mongoose.connect(process.env.DB_CONNECTION, () =>
 	console.log("CONNECT TO DATABASE!")
 );
 
+app.use(notFound);
+app.use(errorsHandler);
+
+const port = 4000 || process.env.PORT;
 //Listening
-app.listen(4000);
+app.listen(port, () => {
+	console.log(`API is running at ${port}`);
+});
