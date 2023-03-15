@@ -7,6 +7,7 @@ const notFound = require("./middleware/not-found");
 
 dotenv.config();
 const app = express();
+app.set("view engine", "pug");
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -15,8 +16,10 @@ app.use(
 	})
 );
 
-//IMPORT ROUTES
+// NOTE: STATIC
 app.use("/uploads", express.static("uploads"));
+app.use("/public", express.static("public"));
+// NOTE: API ROUTE
 const songsRoute = require("./routes/songs");
 app.use("/songs", songsRoute);
 const artistsRoute = require("./routes/artists");
@@ -32,21 +35,22 @@ app.use("/users", usersRoute);
 const lyricsRoute = require("./routes/lyrics");
 app.use("/lyrics", lyricsRoute);
 
-//GET
+const port = process.env.PORT || 4000;
+//NOTE: UI
 app.get("/", (req, res) => {
-	res.send("API is running...");
+	res.render("index", { message: `API is running on port ${port}` });
 });
 
-//Connect to DB
+// NOTE: Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, () =>
 	console.log("CONNECT TO DATABASE!")
 );
 
+// NOTE: EXCEPTIONS HANDLER
 app.use(notFound);
 app.use(errorsHandler);
 
-const port = 4000 || process.env.PORT;
-//Listening
+// NOTE: SERVER LISTENING
 app.listen(port, () => {
 	console.log(`API is running at ${port}`);
 });

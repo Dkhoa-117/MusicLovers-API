@@ -15,3 +15,20 @@ API chạy tại: [localhost:4000]()
 Database: [MongoDB](https://www.mongodb.com)
 
 test bằng [Postman](https://www.postman.com)
+
+## Enviroment variables
+
+| variable          | value                |
+| ----------------- | -------------------- |
+| PORT              | server port number   |
+| DB_CONNECTION     | database connect key |
+| ALLOW_ORIGIN_HOST | cors support host    |
+| JWT_SECRET        | jwt hash key         |
+
+## Packages
+
+- [pug](https://www.npmjs.com/package/pug)
+- [cors](https://www.npmjs.com/package/cors)
+- [body-parser](https://www.npmjs.com/package/body-parser)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [multer](https://www.npmjs.com/package/multer)
