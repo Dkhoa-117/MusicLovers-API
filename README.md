@@ -5,6 +5,7 @@
 > npm start
 
 ## Document
+API được deploy lên evennode, truy cập qua đường dẫn `http://musiclovers.ap-1.evennode.com`
 
 [![API Document](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/17748958/2s93Joz6W6)
 
