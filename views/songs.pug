@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        link(rel="shortcut icon", href="favicon.ico", type="image/x-icon")
+        style 
+            include includes/css/songs.css
+    body 
+        h1 Create new Song
+        .form-container
+            form(action="/songs", method="post", class="form-container") 
+                .row
+                    .col-25 
+                        label(for="songName") Song name
+                    .col-75 
+                        input.text-input(type="text", name="songName", id="songName")
+                .row
+                    .col-25 
+                        label(for="artistName") Artist name
+                    .col-75
+                        input.text-input(type="text", name="artistName", id="artistName")
+                .row
+                    .col-25                        
+                        label(for="artistId") Artist ID
+                    .col-75
+                        input.text-input(type="text", name="artistId", id="artistId")
+                .row
+                    .col-25 
+                        label(for="albumId") Album ID
+                        input.text-input(type="text", name="albumId", id="albumId")
+                .row
+                    .col-25 
+                        label(for="genreId") Genre ID
+                    .col-75
+                        input.text-input(type="text", name="genreId", id="genreId")
+                .row
+                    .col-25 
+                        label(for="songImg") Song Artwork
+                    .col-75
+                        input.file-input(type="file", name="songImg", accept="image/png")
+                .row
+                    .col-25 
+                        label(for="songSrc") Audio file
+                    .col-75
+                        input.file-input(type="file", name="songSrc", accept="audio/mpeg")
+                br
+                .row
+                    input.button(type="submit", value="Create Song") 

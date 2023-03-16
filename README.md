@@ -18,12 +18,11 @@ test bằng [Postman](https://www.postman.com)
 
 ## Enviroment variables
 
-| variable          | value                |
-| ----------------- | -------------------- |
-| PORT              | server port number   |
-| DB_CONNECTION     | database connect key |
-| ALLOW_ORIGIN_HOST | cors support host    |
-| JWT_SECRET        | jwt hash key         |
+| variable      | value                |
+| ------------- | -------------------- |
+| PORT          | server port number   |
+| DB_CONNECTION | database connect key |
+| JWT_SECRET    | jwt hash key         |
 
 ## Packages
 
