@@ -4,21 +4,21 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Create Song
+        title Create Album
         link(rel="shortcut icon", href="favicon.ico", type="image/x-icon")
         style 
             include includes/css/form.css
         script 
-            include includes/javascripts/create-song.js
+            include includes/javascripts/create-album.js
     body 
-        h1 Create new Song
+        h1 Create new Album
         .form-container
             form(class="form", action="javascript:SendData()") 
                 .row
                     .col-25 
-                        label(for="songName") Song name
+                        label(for="albumName") Album name
                     .col-75 
-                        input.text-input(type="text", name="songName", id="songName", placeholder="Enter song name")
+                        input.text-input(type="text", name="albumName", id="albumName", placeholder="Enter album name")
                 .row
                     .col-25 
                         label(for="artistName") Artist name
@@ -31,24 +31,14 @@ html(lang="en")
                         input.text-input(type="text", name="artistId", id="artistId")
                 .row
                     .col-25 
-                        label(for="albumId") Album ID
-                    .col-75
-                        input.text-input(type="text", name="albumId", id="albumId")
-                .row
-                    .col-25 
                         label(for="genreId") Genre ID
                     .col-75
                         input.text-input(type="text", name="genreId", id="genreId")
                 .row
                     .col-25 
-                        label(for="songImg") Song Artwork
+                        label(for="albumImg") Album Artwork
                     .col-75
-                        input.file-input(type="file", name="image", accept="image/png,image/jpeg", id="songImg")
-                .row
-                    .col-25 
-                        label(for="songSrc") Audio file
-                    .col-75
-                        input.file-input(type="file", name="audio", accept="audio/mpeg", id="songSrc")
+                        input.file-input(type="file", name="image", accept="image/png,image/jpeg", id="albumImg")
                 br
                 .row
-                    input.button(type="submit", value="Create Song") 
+                    input.button(type="submit", value="Create album") 

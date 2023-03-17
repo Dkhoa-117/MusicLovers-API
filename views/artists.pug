@@ -1,0 +1,34 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Create Artist
+        link(rel="shortcut icon", href="favicon.ico", type="image/x-icon")
+        style 
+            include includes/css/form.css
+        script 
+            include includes/javascripts/create-artist.js
+    body 
+        h1 Create new Artist
+        .form-container
+            form(class="form", action="javascript:SendData()") 
+                .row
+                    .col-25 
+                        label(for="artistName") Artist name
+                    .col-75 
+                        input.text-input(type="text", name="artistName", id="artistName", placeholder="Enter artist name")
+                .row
+                    .col-25 
+                        label(for="description") Description
+                    .col-75
+                        textarea.text-input(cols="30", rows="10", name="description", id="description", placeholder="Something about artist")
+                .row
+                    .col-25 
+                        label(for="artistImg") artist Artwork
+                    .col-75
+                        input.file-input(type="file", name="image", accept="image/png,image/jpeg", id="artistImg")
+                br
+                .row
+                    input.button(type="submit", value="Create Artist") 

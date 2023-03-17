@@ -6,3 +6,4 @@ class BadRequest extends CustomError {
 		this.statusCode = StatusCodes.BadRequest;
 	}
 }
+module.exports = BadRequest;

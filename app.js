@@ -40,9 +40,8 @@ const port = process.env.PORT || 4000;
 app.get("/", (req, res) => {
 	res.render("index", { message: `API is running on port ${port}` });
 });
-app.get("/admin/songs", (req, res) => {
-	res.render("songs");
-});
+const adminRoute = require("./routes/admin");
+app.use("/admin", adminRoute);
 
 // NOTE: Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, () =>

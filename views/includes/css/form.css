@@ -5,11 +5,15 @@ label {
 	padding: 12px 12px 12px 0px;
 	display: inline-block;
 }
-.row {
-}
 .col-25 {
+	margin-top: 6px;
+	float: left;
+	width: 25%;
 }
 .col-75 {
+	margin-top: 6px;
+	float: left;
+	width: 75%;
 }
 .form-container {
 	border-radius: 5px;
@@ -27,7 +31,10 @@ label {
 .text-input:focus {
 	border: 3px solid #555;
 }
-.file-input {
+.row::after {
+	content: "";
+	display: table;
+	clear: both;
 }
 .button {
 	padding: 12px 20px;

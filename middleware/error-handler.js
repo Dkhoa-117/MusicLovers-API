@@ -8,6 +8,7 @@ const errorHandler = (error, req, res, next) => {
 	res
 		.status(StatusCodes.INTERNAL_SERVER_ERROR)
 		.json({ message: "Something went wrong" });
+	console.log(error);
 };
 
 module.exports = errorHandler;
